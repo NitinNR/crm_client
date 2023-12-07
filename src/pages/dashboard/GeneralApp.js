@@ -1,8 +1,8 @@
 // React
 import { useState, useEffect } from 'react';
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Container, Grid, Stack } from '@mui/material';
+import { useTheme,makeStyles } from '@mui/material/styles';
+import { Container, Grid, Stack, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
@@ -29,6 +29,12 @@ import DeskUserService from '../../services/desk.user.service';
 
 // ----------------------------------------------------------------------
 
+const useStyles = makeStyles((theme) => ({
+  select: {
+    border: 'none', // Remove border
+  },
+}));
+
 export default function GeneralApp() {
   const { user } = useAuth();
   const theme = useTheme();
@@ -37,8 +43,8 @@ export default function GeneralApp() {
   const adminId = TokenService.getUser("userDetails")?.userInfo.id
   const spaceId = TokenService.getData("userDetails")?.space_id
 
-  const [recentUsers,setRecentUsers] = useState([]);
-  const [userengagement,setUserengagement] = useState({});
+  const [recentUsers, setRecentUsers] = useState([]);
+  const [userengagement, setUserengagement] = useState({});
 
   useEffect(() => {
     console.log(dashboardDetails)
@@ -53,13 +59,13 @@ export default function GeneralApp() {
       //   setUserengagement(response.data.cards.userengagements)
       // })
       console.log(spaceId);
-      DeskUserService.getDashBoardDetails(adminId,spaceId).then((response) => {
+      DeskUserService.getDashBoardDetails(adminId, spaceId).then((response) => {
         response = response.data
         console.log(response)
         handleDashboardDetails(response)
         setRecentUsers(response.data.cards.recentusers)
         setUserengagement(response.data.cards.userengagements)
-      }).catch(err=>{
+      }).catch(err => {
         console.log("errrr");
         console.log(err);
       })
@@ -69,7 +75,7 @@ export default function GeneralApp() {
 
   const handleDashboardDetails = (details) => {
     if (details.data?.cards) {
- 
+
 
       setDashboardDetails(
         {
@@ -80,9 +86,36 @@ export default function GeneralApp() {
     }
   }
 
+  
+
+  const classes = useStyles();
+
   return (
     <Page title="General: App">
       <Container maxWidth={themeStretch ? false : 'xl'}>
+        <Grid container justifyContent="flex-end" spacing={3}>
+          <Grid item xs={2} md={2}>
+            <FormControl>
+              <Select
+                labelId="dropdown-label"
+                id="dropdown"
+                defaultValue={"channel"}
+                // value={selectedOption}
+                // onChange={handleChange}
+                displayEmpty
+                classes={{ select: classes.select }}                
+              >
+                <MenuItem value="" disabled>
+                  Select an option
+                </MenuItem>
+                <MenuItem value="channel">Channel</MenuItem>
+                <MenuItem value="app">Application</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+        </Grid>
+
         <Grid container spacing={3}>
           {/* <Grid item xs={12} md={8}>
             <AppWelcome displayName={user?.displayName} />
@@ -142,7 +175,7 @@ export default function GeneralApp() {
           */}
 
           <Grid item xs={12} md={6} lg={8}>
-            <AppAreaInstalled userengagement={userengagement}/>
+            <AppAreaInstalled userengagement={userengagement} />
           </Grid>
 
           {/* <Grid item xs={12} lg={8}>
