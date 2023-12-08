@@ -1,7 +1,7 @@
 // React
 import { useState, useEffect } from 'react';
 // @mui
-import { useTheme,makeStyles } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Container, Grid, Stack, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
@@ -29,12 +29,6 @@ import DeskUserService from '../../services/desk.user.service';
 
 // ----------------------------------------------------------------------
 
-const useStyles = makeStyles((theme) => ({
-  select: {
-    border: 'none', // Remove border
-  },
-}));
-
 export default function GeneralApp() {
   const { user } = useAuth();
   const theme = useTheme();
@@ -49,34 +43,40 @@ export default function GeneralApp() {
   useEffect(() => {
     console.log(dashboardDetails)
 
+    // PANEL//
+
     if (!dashboardDetails.status) {
-      // UserService.DashboardDetails(adminId).then((response) => {
-
-      //   console.log(response);
-
-      //   handleDashboardDetails(response)
-      //   setRecentUsers(response.data.cards.recentusers)
-      //   setUserengagement(response.data.cards.userengagements)
-      // })
-      console.log(spaceId);
-      DeskUserService.getDashBoardDetails(adminId, spaceId).then((response) => {
-        response = response.data
-        console.log(response)
+      UserService.DashboardDetails(adminId).then((response) => {
+        console.log("res=>:",response);
         handleDashboardDetails(response)
         setRecentUsers(response.data.cards.recentusers)
         setUserengagement(response.data.cards.userengagements)
-      }).catch(err => {
-        console.log("errrr");
-        console.log(err);
       })
+
+      // PANEL //
+
+
+      // SPACE //
+
+      // console.log(spaceId);
+      // DeskUserService.getDashBoardDetails(adminId, spaceId).then((response) => {
+      //   response = response.data
+      //   console.log(response)
+      //   handleDashboardDetails(response)
+      //   setRecentUsers(response.data.cards.recentusers)
+      //   setUserengagement(response.data.cards.userengagements)
+      // }).catch(err => {
+      //   console.log("errrr");
+      //   console.log(err);
+      // })
+
+      // SPACE //
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dashboardDetails]);
 
   const handleDashboardDetails = (details) => {
     if (details.data?.cards) {
-
-
       setDashboardDetails(
         {
           status: details.status,
@@ -86,35 +86,9 @@ export default function GeneralApp() {
     }
   }
 
-  
-
-  const classes = useStyles();
-
   return (
     <Page title="General: App">
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Grid container justifyContent="flex-end" spacing={3}>
-          <Grid item xs={2} md={2}>
-            <FormControl>
-              <Select
-                labelId="dropdown-label"
-                id="dropdown"
-                defaultValue={"channel"}
-                // value={selectedOption}
-                // onChange={handleChange}
-                displayEmpty
-                classes={{ select: classes.select }}                
-              >
-                <MenuItem value="" disabled>
-                  Select an option
-                </MenuItem>
-                <MenuItem value="channel">Channel</MenuItem>
-                <MenuItem value="app">Application</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-        </Grid>
 
         <Grid container spacing={3}>
           {/* <Grid item xs={12} md={8}>

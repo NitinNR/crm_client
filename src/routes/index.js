@@ -99,7 +99,8 @@ export default function Router() {
           path: 'applications',
           children: [
             { element: <Navigate to="/dashboard/applications/applications-list" replace />, index: true },
-            { path: 'applications-list', element: <UserApps /> },
+            // { path: 'applications-list', element: <UserApps /> },
+            { path: 'applications-list', element: <ComingSoon /> },
           ],
         },
         {
@@ -220,6 +221,7 @@ const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')))
 
 // Applications
 const UserApps = Loadable(lazy(() => import('../pages/applications/UserApps')));
+const ComingSoon = Loadable(lazy(() => import('../pages/applications/ComingSoon')));
 
 // Channels
 const ChannelApps = Loadable(lazy(() => import('../pages/channels/ChannelApps')));
