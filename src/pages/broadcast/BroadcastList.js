@@ -173,9 +173,7 @@ export default function BroadcastList() {
   const isNotFound = !filteredUsers.length && Boolean(filterName);
 
   const [isModalOpen, setModal] = useState(false);
-  useEffect(() => {
-    console.log(isModalOpen);
-  }, [isModalOpen])
+
 
 
 
@@ -209,12 +207,13 @@ export default function BroadcastList() {
           action={
             <Button
               variant="contained"
-              // component={RouterLink}
+              component={RouterLink}
               // to={PATH_DASHBOARD.broadcast.create}
+              to={PATH_DASHBOARD.broadcast.ccreate}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
-              onClick={() => { setModal(true) }}
+              // onClick={() => { setModal(true) }}
             >
-              New Broadcast.
+              New Broadcast
             </Button>
           }
         />
