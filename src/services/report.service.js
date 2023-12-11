@@ -12,7 +12,5 @@ class ReportService {
             return response.data;
         }
     }
-
 }
-
 export default new ReportService();

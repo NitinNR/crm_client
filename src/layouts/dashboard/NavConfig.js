@@ -42,6 +42,11 @@ const navConfig = [
     path: PATH_DASHBOARD.account.settings,
     icon: getIcon('uiw:setting'),
   },
+  {
+    title: 'Upgrade Plan',
+    path: PATH_DASHBOARD.plans.root,
+    icon: getIcon('ri:arrow-up-circle-fill'),
+  },
   // {
   //   title: 'login',
   //   path: '/login',
