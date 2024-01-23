@@ -47,7 +47,8 @@ class TokenService {
     getUserID = ()=>{
 
       const user =  JSON.parse(localStorage.getItem("user"));
-      return user.userInfo.id
+      console.log(user)
+      return user?.userInfo?.id
     }
   }
 

@@ -18,6 +18,8 @@ import {
   Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment, RadioGroup, FormControlLabel, Radio,
   FormControl, FormLabel
 } from '@mui/material';
+import { blue } from '@mui/material/colors';
+
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
@@ -63,6 +65,18 @@ export default function BroadcastEdit2({ userId, spaceId, bid, isEdit, currentBr
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const SeriousNotify = (message)=>{
+    enqueueSnackbar(message,{anchorOrigin:{horizontal: 'center', vertical: 'top'},variant:"error"});
+  }
+
+  const KhushiNotify = (message)=>{
+    enqueueSnackbar(message,{anchorOrigin:{horizontal: 'center', vertical: 'top'},variant:"success"});
+  }
+
+  const WorningNotify = (message)=>{
+    enqueueSnackbar(message,{anchorOrigin:{horizontal: 'center', vertical: 'top'},variant:"warning"});
+  }
 
   const [yupValidation, setYupvalidation] = useState(Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -146,21 +160,24 @@ export default function BroadcastEdit2({ userId, spaceId, bid, isEdit, currentBr
         const new_broadcast_status = await createBroadcast(userId, values, mytz);
         values.template_code = wtemplates[0].language;
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        if (new_broadcast_status.data.status === 400) {
-          enqueueSnackbar('Broadcast Creation failed !');
-        } else {
-          enqueueSnackbar('Broadcast Created successfully!');
+        if (new_broadcast_status?.data?.status === 400) {
+          SeriousNotify('Broadcast Creation failed !')
+        } else if(new_broadcast_status?.status === 200) {
+          KhushiNotify('Broadcast Created successfully!');
+          navigate(PATH_DASHBOARD.broadcast.schedule);
+        }else if(new_broadcast_status?.response?.status === 417) {
+          WorningNotify(new_broadcast_status?.response?.data?.message);
           // navigate(PATH_DASHBOARD.broadcast.schedule);
         }
 
       } else {
         const update_broadcast_status = await updateBroadcast(userId, bid, values);
         if (update_broadcast_status.status === 200) {
-          enqueueSnackbar('Broadcast Updated successfully!');
+          KhushiNotify('Broadcast Updated successfully!');
           await new Promise((resolve) => setTimeout(resolve, 500));
           navigate(PATH_DASHBOARD.broadcast.schedule);
         } else {
-          enqueueSnackbar('Broadcast Updation failed !');
+          SeriousNotify('Broadcast Updation failed !');
         }
 
       }

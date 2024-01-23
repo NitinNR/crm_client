@@ -71,3 +71,7 @@ export const defaultSettings = {
   themeLayout: 'horizontal',
   themeStretch: false,
 };
+
+export const STRIPE_PAY = {
+  API_KEY_FRONTEND: process.env.REACT_APP_STRIPE_API_KEY_FRONTEND ,
+};

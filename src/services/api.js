@@ -30,7 +30,6 @@ instance.interceptors.response.use(
     return res;
   },
   async (err) => {
-    console.log(err);
     const originalConfig = err.config;
     if (originalConfig.url !== "/auth/signin" && err.response) {
       // Access Token was expired
@@ -46,6 +45,8 @@ instance.interceptors.response.use(
         } catch (_error) {
           return Promise.reject(_error);
         }
+      }else if(err.response.status === 417){
+        return Promise.resolve(err);
       }
     }
     return Promise.reject(err);

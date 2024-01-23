@@ -62,13 +62,13 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
   const defaultValues = useMemo(
     () => ({
-      fullName: currentUser?.fullName || '',
-      email: currentUser?.email || '',
-      whatsappNumber: currentUser?.whatsapp_number || '',
+      fullName: currentUser?.fullName || 'test02',
+      email: currentUser?.email || 'test02@gmail.test',
+      whatsappNumber: currentUser?.whatsapp_number || '098765432190',
       DateTime: currentUser?.DateTime || '',
-      displayName: currentUser?.displayName || '',
+      displayName: currentUser?.displayName || 'test02',
       capturedData: currentUser?.capturedData ? JSON.parse(currentUser.capturedData) : [] || [],
-      privateNote: currentUser?.privateNote || '',
+      privateNote: currentUser?.privateNote || 'test87',
       avatarUrl: currentUser?.avatarUrl || '',
       additional_attributes: currentUser?.additional_attributes || '{}',
     }),
@@ -172,11 +172,17 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
       } else if (!isEdit) {
         UserService.UserCreate(adminId, values.fullName, values.displayName, values.email, values.whatsappNumber, values.privateNote, values.avatarUrl).then((response) => {
-          if (response.status) {
-            enqueueSnackbar('Create success!')
+          if (response.ack === "User Added Successfully!") {
+            enqueueSnackbar('Create success!');
             navigate(PATH_DASHBOARD.user.list);
 
+          } else if(response.status === 417) {
+            enqueueSnackbar(response.data.message)
           }
+
+        }).catch(e => {
+          console.log("EEEEEEROR", e);
+          // console.log(e);
         })
       }
       // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');

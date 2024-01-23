@@ -66,14 +66,13 @@ class UserService {
     }
 
     UserCreate = async (adminId, fullName, displayName, email, whatsappNumber, privateNote, avatarUrl) => {
-        const response = await api
-            .post("/user/create", {
-                adminId, fullName, displayName, email, whatsappNumber, privateNote, avatarUrl,
-            });
-        // // console.log("response",response)
+        const response = await api.post("/user/create", {adminId, fullName, displayName, email, whatsappNumber, privateNote, avatarUrl});
+        console.log(response.data);
         if (response.data) {
             return response.data;
         }
+        // console.log(response.json());
+        return response.response;
     }
 
 

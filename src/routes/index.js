@@ -12,7 +12,8 @@ import AuthGuard from '../guards/AuthGuard';
 import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import Plans from '../layouts/plans/Plans';
+import Plans from '../pages/plans/Plans';
+import Success from '../pages/Success';
 
 // ----------------------------------------------------------------------
 
@@ -201,6 +202,7 @@ export default function Router() {
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
+    { path: 'success', element: <Success /> },
   ]);
 }
 
